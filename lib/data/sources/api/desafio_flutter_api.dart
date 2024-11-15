@@ -12,16 +12,23 @@ class DesafioFlutterApi {
 
   http.Client client = InterceptedClient.build(interceptors: [LoggerInterceptor()]);
 
-  Future<String> validatePassword(Login login) async {
-    http.Response response = await client.post(Uri.parse(url + "/validate"), body: {
-      "password": login.password
-    });
+  Future<String> validatePassword(String password) async {
+    try{
+      http.Response response = await client.post(Uri.parse(url + "/validate"), body: {
+        "password": password
+      });
 
-    if(response.statusCode != 202){
-      throw RequestApiException(message: "Erro ao fazer a requisição.", statusCode: response.statusCode);
+      if(response.statusCode != 202){
+        throw RequestApiException(message: "Erro ao fazer a requisição.", statusCode: response.statusCode);
+      }
+      var responseBody = jsonDecode(response.body);
+      return responseBody["id"];
+    }catch (e){
+      if(e is RequestApiException){
+        return "";
+      }
+      throw RequestApiException(message: "Erro interno do servidor", statusCode: 500);
     }
-    var responseBody = jsonDecode(response.body);
-    return responseBody["id"];
   }
 
 }
