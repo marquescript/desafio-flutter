@@ -14,9 +14,15 @@ class DesafioFlutterApi {
 
   Future<String> validatePassword(String password) async {
     try{
-      http.Response response = await client.post(Uri.parse(url + "/validate"), body: {
-        "password": password
-      });
+      http.Response response = await client.post(
+          Uri.parse(url + "/validate"),
+          body: jsonEncode({"password": password}),
+          headers: {
+            "Content-Type": "application/json",
+            "X-Author-Name": "Carlos Marques",
+            "X-Author-Email": "carrlosmr@gmail.com"
+          }
+      );
 
       if(response.statusCode != 202){
         throw RequestApiException(message: "Erro ao fazer a requisição.", statusCode: response.statusCode);

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login_app/core/controllers/login_controller.dart';
+import 'package:login_app/data/models/login_model.dart';
 import 'package:login_app/service/login_service.dart';
 import 'package:login_app/view/widgets/input_login.dart';
 
@@ -15,6 +16,36 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _formLoginKey = GlobalKey<FormState>();
   final LoginController loginController = LoginController();
+  final LoginService loginService = LoginService();
+
+  Future<bool> sendLogin(Login login) async {
+    return await loginService.sendPassword(login);
+  }
+
+  Future<void> handleLogin() async {
+    if (_formLoginKey.currentState!.validate()) {
+      Login login = Login(
+        name: loginController.nameController.text,
+        password: loginController.passwordController.text,
+      );
+
+      bool response = await sendLogin(login);
+
+      if (response) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Tudo OK!")),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              "Ocorreu um problema ao tentar conectar com o servidor. Por favor, tente novamente mais tarde.",
+            ),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Container(
                     width: 150,
-                    child: ElevatedButton(onPressed: (){
-                      if(_formLoginKey.currentState!.validate()){
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Tudo OK!")));
-                      }
-                    }, child: Text("Enviar", style: TextStyle(color: Colors.white)),
+                    child: ElevatedButton(onPressed: handleLogin, child: Text("Enviar", style: TextStyle(color: Colors.white)),
                       style: ElevatedButton.styleFrom(backgroundColor: Colors.green)),
                   )
                 ],

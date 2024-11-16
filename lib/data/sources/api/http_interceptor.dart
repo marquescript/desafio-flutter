@@ -21,13 +21,20 @@ class LoggerInterceptor extends InterceptorContract {
   }) async {
     log.i('----- Response -----');
 
-    if(response.statusCode ~/ 100 == 2){
+    if (response.statusCode ~/ 100 == 2) {
       log.i('Code: ${response.statusCode}');
-    }else {
+    } else {
       log.e('Code: ${response.statusCode}');
     }
 
-    if (response is Response) {((response).body);}
+    // Verifica se a resposta é do tipo Response e então acessa o corpo
+    if (response is Response) {
+      var responseBody = response.body;
+      log.i('Response Body: $responseBody');
+      // Aqui você pode fazer o que precisar com o corpo da resposta
+    }
+
     return response;
   }
+
 }
