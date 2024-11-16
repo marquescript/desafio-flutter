@@ -4,7 +4,11 @@ import "package:login_app/service/login_service.dart";
 
 void main(){
 
-  final loginService = LoginService();
+  late LoginService loginService;
+
+  setUp(() {
+    loginService = LoginService();
+  });
 
   test("Login service validatePassword must pass successfully", (){
     String validated = loginService.validatePassword("C@rlos12345");
