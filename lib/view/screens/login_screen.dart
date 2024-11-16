@@ -25,11 +25,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> handleLogin() async {
-    setState(() {
-      isLoading = true;
-    });
 
     if (_formLoginKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
       Login login = Login(
         name: loginController.nameController.text,
         password: loginController.passwordController.text,
