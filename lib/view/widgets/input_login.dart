@@ -3,8 +3,16 @@ import 'package:flutter/material.dart';
 class InputLogin extends StatefulWidget {
   final String labelText;
   final bool obscureText;
+  final TextEditingController inputController;
+  final String? Function(String?) validator;
 
-  InputLogin({super.key, required this.labelText, required this.obscureText});
+  const InputLogin({
+    super.key,
+    required this.labelText,
+    required this.obscureText,
+    required this.inputController,
+    required this.validator
+  });
 
   @override
   State<InputLogin> createState() => _InputLoginState();
@@ -22,6 +30,8 @@ class _InputLoginState extends State<InputLogin> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.inputController,
+      validator: widget.validator,
       obscureText: _obscureText,
       decoration: InputDecoration(
         labelText: widget.labelText,

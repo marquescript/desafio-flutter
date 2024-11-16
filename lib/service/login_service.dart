@@ -18,16 +18,16 @@ class LoginService {
     }
   }
 
-  String validatePassword(Login login){
+  String validatePassword(String password){
     MultiValidator passwordValidator = MultiValidator([
-      MinLengthValidator(8, errorText: "A senha deve possuir no mínimo 8 caracteres"),
-      PatternValidator(r'[0-9]', errorText: "A senha deve possuir no mínimo 1 número"),
-      PatternValidator(r'[A-Z]', errorText: "A senha deve possuir no mínimo 1 caracter maiúsculo"),
-      PatternValidator(r'[a-z]', errorText: "A senha deve possuir no mínimo 1 caracter maiúsculo"),
-      PatternValidator(r'[!@#$%^&*(),.?":{}|<>]', errorText: "A senha deve possuir no mínimo 1 caracter especial")
+      MinLengthValidator(8, errorText: "Necessário ter no mínimo 8 caracteres"),
+      PatternValidator(r'[0-9]', errorText: "Necessário ter no mínimo 1 número"),
+      PatternValidator(r'[A-Z]', errorText: "Necessário ter no minimo 1 caracter maiúsculo"),
+      PatternValidator(r'[a-z]', errorText: "Necessário ter no mínimo 1 caracter minúsculo"),
+      PatternValidator(r'[!@#$%^&*(),.?":{}|<>]', errorText: "Necessário ter no mínimo 1 caracter especial")
     ]);
 
-    String? errorMessage = passwordValidator(login.password);
+    String? errorMessage = passwordValidator(password);
 
     return errorMessage ?? "";
   }
