@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login_app/data/models/login_model.dart';
 import 'package:login_app/service/login_service.dart';
-import '../../core/constants/login_error.dart';
 
 class LoginController {
   TextEditingController nameController = TextEditingController();
@@ -10,38 +9,7 @@ class LoginController {
 
   LoginService loginService = LoginService();
 
-  Function(bool isLoading)? onLoadingChanged;
-
-  Future<bool> sendLogin(Login login) async {
-    return loginService.sendPassword(login);
-  }
-
-  Future<void> handleLogin(
-      BuildContext context, GlobalKey<FormState> formKey) async {
-    if (formKey.currentState!.validate()) {
-
-      onLoadingChanged?.call(true);
-
-      Login login = Login(
-        name: nameController.text,
-        password: passwordController.text,
-      );
-
-      bool response = await sendLogin(login);
-
-      onLoadingChanged?.call(false);
-
-      if (response) {
-        Navigator.pushNamed(context, '/home');
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(LoginError.errorConnectingToServer),
-          ),
-        );
-      }
-    }
-  }
+  bool isLoading = false;
 
   String? validateInputPassword(String? value) {
     if (value == null || value.isEmpty) {
@@ -62,4 +30,41 @@ class LoginController {
     nameController.dispose();
     passwordController.dispose();
   }
+
+  Future<bool> sendLogin(Login login) async {
+    return loginService.sendPassword(login);
+  }
+
+  Future<bool?> handleLogin({
+    required GlobalKey<FormState> formLoginKey,
+    required BuildContext context,
+    required Function(void Function()) setStateCallback,
+    Future<bool> Function(Login login)? sendLoginCallback })
+  async {
+    if (formLoginKey.currentState!.validate()) {
+      setStateCallback(() {
+        isLoading = true;
+      });
+      Login login = Login(
+        name: nameController.text,
+        password: passwordController.text,
+      );
+
+      bool response = await (sendLoginCallback?.call(login) ?? sendLogin(login));
+
+      setStateCallback(() {
+        isLoading = false;
+      });
+
+      if(response){
+        nameController.clear();
+        passwordController.clear();
+        return true;
+      }
+
+      return false;
+    }
+    return null;
+  }
+
 }

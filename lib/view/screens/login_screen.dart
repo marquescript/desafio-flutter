@@ -21,32 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final LoginController loginController = LoginController();
   final LoginService loginService = LoginService();
 
-  bool isLoading = false;
-
-  Future<bool> sendLogin(Login login) async {
-    return widget.sendLogin?.call(login) ?? loginService.sendPassword(login);
-  }
-
-  Future<bool?> handleLogin() async {
-    if (_formLoginKey.currentState!.validate()) {
-      setState(() {
-        isLoading = true;
-      });
-      Login login = Login(
-        name: loginController.nameController.text,
-        password: loginController.passwordController.text,
-      );
-
-      bool response = await sendLogin(login);
-
-      setState(() {
-        isLoading = false;
-      });
-
-      return response;
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +61,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 150,
                         child: ElevatedButton(
                             onPressed: () async {
-                              bool? result = await handleLogin();
+                              bool? result = await loginController.handleLogin(formLoginKey: _formLoginKey, context: context, setStateCallback: (void Function() callback){
+                                setState(callback);
+                              }, sendLoginCallback: widget.sendLogin);
                               if (result != null) {
                                 if (result) {
                                   Navigator.push(
@@ -116,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            if (isLoading)
+            if (loginController.isLoading)
               const Positioned.fill(
                   child: ColoredBox(
                 color: Colors.black54,
