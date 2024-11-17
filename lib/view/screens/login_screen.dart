@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green),
                             child: const Text("Enviar",
-                                style: TextStyle(color: Colors.white))),
+                                style: TextStyle(color: Colors.white, fontSize: 18))),
                       )
                     ],
                   ),
