@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_app/core/controllers/login_controller.dart';
 import 'package:login_app/data/models/login_model.dart';
-import 'package:login_app/service/login_service.dart';
 import 'package:login_app/view/screens/home_screen.dart';
 import 'package:login_app/view/widgets/input_login.dart';
 
@@ -19,8 +18,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formLoginKey = GlobalKey<FormState>();
   final LoginController loginController = LoginController();
-  final LoginService loginService = LoginService();
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +58,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 150,
                         child: ElevatedButton(
                             onPressed: () async {
-                              bool? result = await loginController.handleLogin(formLoginKey: _formLoginKey, context: context, setStateCallback: (void Function() callback){
-                                setState(callback);
-                              }, sendLoginCallback: widget.sendLogin);
+                              bool? result = await loginController.handleLogin(
+                                  formLoginKey: _formLoginKey,
+                                  setStateCallback: (void Function() callback) {
+                                    setState(callback);
+                                  },
+                                  sendLoginCallback: widget.sendLogin);
+
                               if (result != null) {
                                 if (result) {
                                   Navigator.push(

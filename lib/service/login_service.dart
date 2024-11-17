@@ -9,11 +9,8 @@ class LoginService {
 
   Future<bool> sendPassword(Login login) async {
     try{
-      String response = await api.validatePassword(login.password);
-      if(response.isNotEmpty){
-        return true;
-      }
-      return false;
+      String? response = await api.validatePassword(login.password);
+      return response != null;
     }catch (e){
       return false;
     }

@@ -27,11 +27,9 @@ class LoggerInterceptor extends InterceptorContract {
       log.e('Code: ${response.statusCode}');
     }
 
-    // Verifica se a resposta é do tipo Response e então acessa o corpo
     if (response is Response) {
       var responseBody = response.body;
       log.i('Response Body: $responseBody');
-      // Aqui você pode fazer o que precisar com o corpo da resposta
     }
 
     return response;

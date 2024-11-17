@@ -37,7 +37,6 @@ class LoginController {
 
   Future<bool?> handleLogin({
     required GlobalKey<FormState> formLoginKey,
-    required BuildContext context,
     required Function(void Function()) setStateCallback,
     Future<bool> Function(Login login)? sendLoginCallback })
   async {
