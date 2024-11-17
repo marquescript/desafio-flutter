@@ -27,8 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return widget.sendLogin?.call(login) ?? loginService.sendPassword(login);
   }
 
-  Future<void> handleLogin() async {
-
+  Future<bool?> handleLogin() async {
     if (_formLoginKey.currentState!.validate()) {
       setState(() {
         isLoading = true;
@@ -44,18 +43,9 @@ class _LoginScreenState extends State<LoginScreen> {
         isLoading = false;
       });
 
-      if (response) {
-        Navigator.push(context, MaterialPageRoute(builder: (newContext) => HomeScreen()));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              LoginError.errorConnectingToServer,
-            ),
-          ),
-        );
-      }
+      return response;
     }
+    return null;
   }
 
   @override
@@ -68,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             SingleChildScrollView(
               child: Center(
-                child: Container(
+                child: SizedBox(
                   width: 300,
                   height: MediaQuery.of(context).size.height,
                   child: Column(
@@ -93,10 +83,29 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: loginController.validateInputPassword,
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: 150,
                         child: ElevatedButton(
-                            onPressed: handleLogin,
+                            onPressed: () async {
+                              bool? result = await handleLogin();
+                              if (result != null) {
+                                if (result) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (newContext) =>
+                                              const HomeScreen()));
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        LoginError.errorConnectingToServer,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }
+                            },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green),
                             child: const Text("Enviar",
