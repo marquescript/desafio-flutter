@@ -20,7 +20,7 @@ class DesafioFlutterApi {
             "X-Author-Name": "Carlos Marques",
             "X-Author-Email": "carrlosmr@gmail.com"
           }
-      ).timeout(const Duration(seconds: 5), onTimeout: (){
+      ).timeout(const Duration(seconds: 6), onTimeout: (){
         throw RequestApiException(message: ApiUrl.exceededRequestTime, statusCode: 408);
       });
 

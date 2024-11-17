@@ -7,7 +7,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Home")),
-      body: const Center(child: Text("Bem-vindo à Home")),
+      body: const Center(child: Text("Bem-vindo \u{1F609}", style: TextStyle(fontSize: 32),)),
     );
   }
 }

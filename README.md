@@ -1,16 +1,33 @@
-# login_app
+# Desafio técnico - Flutter
 
-Desafio tecnico em flutter
+## 🛠️ Tecnologias utilizadas
 
-## Getting Started
+- **Flutter**
+    - Versão: `3.24.4`
 
-This project is a starting point for a Flutter application.
+- **Dart**
+    - Versão: `3.5.4`
 
-A few resources to get you started if this is your first Flutter project:
+## ⚙️ Instalação
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Passo a passo para instalar o projeto Flutter localmente.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 1 - Clone o repositório:
+
+```bash
+git clone git@github.com:marquescript/desafio-flutter.git
+```
+
+### 2 - Entre na pasta do projeto
+
+### 3 - Instale as dependências:
+
+```bash
+flutter pub get
+```
+
+### 4 - Execute o aplicativo em um emulador:
+
+```bash
+flutter run
+```
