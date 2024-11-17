@@ -10,5 +10,6 @@ class LoginError {
 
   static const String specialCharacterIsRequired = "Necessário ter no mínimo 1 caracter especial";
 
+  static const String errorConnectingToServer = "Ocorreu um problema ao tentar conectar com o servidor. Por favor, tente novamente mais tarde.";
 
 }

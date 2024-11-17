@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login_app/core/controllers/login_controller.dart';
 import 'package:login_app/data/models/login_model.dart';
@@ -6,8 +5,12 @@ import 'package:login_app/service/login_service.dart';
 import 'package:login_app/view/screens/home_screen.dart';
 import 'package:login_app/view/widgets/input_login.dart';
 
+import '../../core/constants/login_error.dart';
+
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({super.key, this.sendLogin});
+
+  final Future<bool> Function(Login login)? sendLogin;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -21,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
 
   Future<bool> sendLogin(Login login) async {
-    return await loginService.sendPassword(login);
+    return widget.sendLogin?.call(login) ?? loginService.sendPassword(login);
   }
 
   Future<void> handleLogin() async {
@@ -47,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-              "Ocorreu um problema ao tentar conectar com o servidor. Por favor, tente novamente mais tarde.",
+              LoginError.errorConnectingToServer,
             ),
           ),
         );
